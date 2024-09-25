@@ -19,7 +19,6 @@ function enterkey(e) {
         newli.appendChild(btn);
         newli.appendChild(newhr);
         here.appendChild(newli)
-        
 
         text.value = ''
         btn.addEventListener('click', function(e){
