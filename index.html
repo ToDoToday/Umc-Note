@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <section>
+    <h1 class = title >UMC Study Plan</h1>
+    <hr id='extra'>
+  </section>
+  <div id="inputbox">
+    <input value="" id ="inputdata"  type="text" placeholder="스터디 계획을 작성해보세요!" onkeypress ='enterkey(event)'/> 
+  </div>
+  <div class = container>
+      <span id="todo">
+        <strong>해야 할 일<hr></strong>
+        <div id="todolist"></div>
+      </span>
+      <span id="done"><strong>해낸 일<hr></strong>
+        <div id="donelist"></div>
+      </span>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
