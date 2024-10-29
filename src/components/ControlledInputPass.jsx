@@ -48,6 +48,6 @@ const StyledInput = styled.input`
 
 const ErrorMessage = styled.p`
     color: red;
-    font-size: 14px;
+    font-size: 12px;
     margin-top: 5px;
 `;
