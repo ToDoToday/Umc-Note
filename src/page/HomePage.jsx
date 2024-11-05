@@ -2,7 +2,7 @@
 import styled from "styled-components"
 
 
-const MoviePage = ()=>{
+const HomePage = ()=>{
     return (
         <Background>
             <CustomH1>홈 페이지</CustomH1>
@@ -10,7 +10,7 @@ const MoviePage = ()=>{
     )
 }
 
-export default MoviePage
+export default HomePage
 
 const Background = styled.div`
     margin-left: 200px;

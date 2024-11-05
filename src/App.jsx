@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import NotFound from './page/NotFound.jsx';
-import MoviePage from './page/MoviePage.jsx';
+import HomePage from './page/HomePage.jsx';
 import MovieDetailPage from './page/MovieDetailPage.jsx';
 import LoginPage from './page/LoginPage.jsx';
 import SignupPage from './page/SignupPage.jsx';
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <MoviePage />
+        element: <HomePage />
       },
       {
         path: 'login',

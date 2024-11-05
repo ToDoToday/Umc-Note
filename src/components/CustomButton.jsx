@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-function CustomButton() {
+function CustomButton({children}) {
     return (
-        <StyledButton>로그인</StyledButton>
+        <StyledButton>{children}</StyledButton>
     );
 }
 

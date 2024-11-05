@@ -15,7 +15,7 @@ const MovieDetailPage = () => {
           Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNDkyYzEwYTQyYTQ1ZDA5MDdjNTE5Y2FkMmEzODE5MyIsIm5iZiI6MTczMDE3MjczMC44NTM2MzIsInN1YiI6IjY3MDIzYzBiZjM0OTVkNzJjNGY3YTQ2YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.r1TPbGvFqG_gwp1Q5Co_O5uzPcxqNgWvlODwjAYobZc',
         },
       });
-      console.log(movieResponse)
+      // console.log(movieResponse)
       const creditResponse = await axios.get(`https://api.themoviedb.org/3/movie/${movieid}/credits?language=ko-KR`, {
         headers: {
           Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNDkyYzEwYTQyYTQ1ZDA5MDdjNTE5Y2FkMmEzODE5MyIsIm5iZiI6MTczMDE3MjczMC44NTM2MzIsInN1YiI6IjY3MDIzYzBiZjM0OTVkNzJjNGY3YTQ2YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.r1TPbGvFqG_gwp1Q5Co_O5uzPcxqNgWvlODwjAYobZc',
@@ -31,6 +31,7 @@ const MovieDetailPage = () => {
 
   const director = credits.crew.find((person) => person.job === "Director");
   const topCast = credits.cast; 
+  let aveMV= movie.vote_average.toFixed(1)
   return (
     <Background>
       <Container>
@@ -38,7 +39,7 @@ const MovieDetailPage = () => {
         <BackdropImage backdropPath={movie.backdrop_path} />
           <Overlay>
             <Title>{movie.title}</Title>
-            <p>평균 {movie.vote_average}</p>
+            <p>평균 {aveMV}</p>
             <p>{movie.release_date}</p>
             <p>{movie.runtime}분</p>
             
@@ -67,7 +68,7 @@ const MovieDetailPage = () => {
                   alt={actor.name} 
                 />
                 <CastName>{actor.name}</CastName>
-                <CastRole>{actor.character} (voice)</CastRole>
+                <CastRole>{actor.character} </CastRole>
               </CastItem>
             ))}
           </CastList>
@@ -175,7 +176,7 @@ const CastRole = styled.p`
 
 const Customdiv3 = styled.div`
   margin-top:20px;
-  displat:block;
+  display:block;
   height: 250px;
   font-size:12px;
 `

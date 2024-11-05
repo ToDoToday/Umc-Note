@@ -22,7 +22,7 @@ function ControlledInputPass() {
                 value={inputValue} 
                 placeholder='비밀번호를 입력해주세요!' 
                 onChange={handleChange}  
-                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(true)}
             />
             {isFocused && !passwordValidChk(inputValue) && ( 
                 <ErrorMessage>비밀번호는 8 ~ 16자 사이로 입력해주세요!</ErrorMessage>

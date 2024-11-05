@@ -22,7 +22,7 @@ function ControlledInputId() {
                 value={inputValue}
                 placeholder='아이디를 입력해주세요!'
                 onChange={handleChange}
-                onFocus={() => setIsFocused(true)} 
+                onBlur={() => setIsFocused(true)}  //???? onFocus -> onBlur 
             />
             {isFocused && !emailValidChk(inputValue) && (
                 <ErrorMessage>올바른 이메일 형식이 아닙니다. 다시 확인해주세요!</ErrorMessage>
