@@ -1,22 +1,36 @@
-import styled from "styled-components";
-import ControlledInputId from "../components/ControlledInputId";
-import ControlledInputPass from "../components/ControlledInputPass";
 import CustomButton from "../components/CustomButton";
-import ControlledInputPassAgain from "../components/ControlledInputPassAgain";
+import styled from "styled-components";
+import useForm from "../hooks/use-form";
+import { validateSignup } from "../utils/vaildate";
 
 const SignupPage = () => {
+    const signup = useForm({
+        initialValue: {
+            email: '',
+            password: '',
+            PasswordCheck: ''
+        },
+        validate: validateSignup // 가입 유효성 검사 함수
+    });
+
     return (
         <Background>
             <CustomContainer>
                 <CustomH1>회원가입</CustomH1>
-                <ControlledInputId>아이디</ControlledInputId>
-                <ControlledInputPass>비밀번호</ControlledInputPass>
-                <ControlledInputPassAgain>다시</ControlledInputPassAgain>
-                <CustomButton>회원가입</CustomButton>
+                <StyledInput type={'email'} placeholder={'이메일을 입력해주세요!'} {...signup.getTextInputProps('email')} />
+                {signup.touched.email && signup.errors.email && <ErrorText>{signup.errors.email}</ErrorText>}
+                
+                <StyledInput type={'password'} placeholder={'비밀번호를 입력해주세요!'} {...signup.getTextInputProps('password')} />
+                {signup.touched.password && signup.errors.password && <ErrorText>{signup.errors.password}</ErrorText>}
+                
+                <StyledInput type={'password'} placeholder={'비밀번호를 다시 입력해주세요!'} {...signup.getTextInputProps('PasswordCheck')} />
+                {signup.touched.PasswordCheck && signup.errors.PasswordCheck && <ErrorText>{signup.errors.PasswordCheck}</ErrorText>}
+                
+                <CustomButton>제출</CustomButton>
             </CustomContainer>
         </Background>
     );
-}
+};
 
 export default SignupPage;
 
@@ -31,16 +45,35 @@ const Background = styled.div`
 `;
 
 const CustomH1 = styled.h1`
-    width:100%;
-    text-align:center;
+    width: 100%;
+    text-align: center;
     color: white;
-
 `;
 
 const CustomContainer = styled.div`
     display: flex;
     flex-direction: column;   
-    gap: 20px;             
+    gap: 10px;             
     align-items: flex-start; 
-    margin-bottom:200px;
+    margin-bottom: 200px;
+
+`;
+
+
+const StyledInput = styled.input`
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;
+    font-size: 16px;
+
+    &:focus {
+        border-color: #66afe9;
+        outline: none;
+    }
+`;
+
+const ErrorText = styled.h1`
+    color: red;
+    font-size: 12px;
 `;

@@ -46,7 +46,7 @@ const CustomH1 = styled.h1`
 const CustomContainer = styled.div`
     display: flex;
     flex-direction: column;   
-    gap: 20px;             
+    gap: 10px;             
     align-items: flex-start; 
     margin-bottom: 200px;
 `;
