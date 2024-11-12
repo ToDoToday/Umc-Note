@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState , useEffect} from 'react';
 import './App.css';
 import NotFound from './page/NotFound.jsx';
 import HomePage from './page/HomePage.jsx';
@@ -14,6 +14,9 @@ import Popular from './page/Popular.jsx';
 import Upcoming from './page/Upcoming.jsx';  
 import TopRated from './page/TopRated.jsx';  
 import { createGlobalStyle } from 'styled-components';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
 
 // 글로벌 스타일 정의
 const GlobalStyle = createGlobalStyle`
@@ -85,13 +88,30 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClient = new QueryClient()
+
+
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // 로컬 스토리지에서 토큰을 가져와 인증 상태 설정
+  useEffect(() => {
+      const accessToken = localStorage.getItem('accessToken');
+      if (accessToken) {
+          setIsAuthenticated(true);  // 토큰이 있으면 인증된 상태로 설정
+      }
+  }, []); 
+
   return (
-    <>
-      <GlobalStyle /> {/* 글로벌 스타일 적용 */}
-      <RouterProvider router={router} />
-    </>
+      <>
+          <QueryClientProvider client={queryClient}>
+            <GlobalStyle />
+            <RouterProvider router={router} />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+      </>
   );
 }
+
 
 export default App;

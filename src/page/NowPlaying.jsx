@@ -7,13 +7,13 @@ import useCustomFetch from '../hooks/useCustomFetch';
 const NowPlaying = () => {
   const navigate = useNavigate();
 
-  const {data:movies , isLoading, isError} = useCustomFetch(`/now_playing?language=ko-KR`)
+  const {data:movies , isLoading, isError} = useCustomFetch(`/movie/now_playing?language=ko-KR`)
 
   const handleMovieClick = (movieid) => {
     navigate(`/movies/${movieid}`);
   };
   if (isLoading) return <CustomP>로딩중...</CustomP>;
-  if (isError) return <CustomP>영화 정보를 가져오는 데 오류가 발생했습니다.{isError}</CustomP>;
+  if (isError) return <CustomP>영화 정보를 가져오는 데 오류가 발생했습니다.{isError.message}</CustomP>;
   return (
     <CustomUl>
       {movies.map((movie) => (

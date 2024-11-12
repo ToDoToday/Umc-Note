@@ -15,7 +15,6 @@ const MovieDetailPage = () => {
           Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNDkyYzEwYTQyYTQ1ZDA5MDdjNTE5Y2FkMmEzODE5MyIsIm5iZiI6MTczMDE3MjczMC44NTM2MzIsInN1YiI6IjY3MDIzYzBiZjM0OTVkNzJjNGY3YTQ2YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.r1TPbGvFqG_gwp1Q5Co_O5uzPcxqNgWvlODwjAYobZc',
         },
       });
-      // console.log(movieResponse)
       const creditResponse = await axios.get(`https://api.themoviedb.org/3/movie/${movieid}/credits?language=ko-KR`, {
         headers: {
           Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNDkyYzEwYTQyYTQ1ZDA5MDdjNTE5Y2FkMmEzODE5MyIsIm5iZiI6MTczMDE3MjczMC44NTM2MzIsInN1YiI6IjY3MDIzYzBiZjM0OTVkNzJjNGY3YTQ2YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.r1TPbGvFqG_gwp1Q5Co_O5uzPcxqNgWvlODwjAYobZc',

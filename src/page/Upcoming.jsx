@@ -2,27 +2,19 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import useCustomFetch from '../hooks/useCustomFetch';
 
 const Upcoming = () => {
-  const [movies, setMovies] = useState([]);
+
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const getMovies = async () => {
-      const moviesapi = await axios.get('https://api.themoviedb.org/3/movie/upcoming?language=ko-KR&page=1', {
-        headers: {
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNDkyYzEwYTQyYTQ1ZDA5MDdjNTE5Y2FkMmEzODE5MyIsIm5iZiI6MTczMDE3MjczMC44NTM2MzIsInN1YiI6IjY3MDIzYzBiZjM0OTVkNzJjNGY3YTQ2YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.r1TPbGvFqG_gwp1Q5Co_O5uzPcxqNgWvlODwjAYobZc',
-        },
-      });
-      setMovies(moviesapi.data.results);
-    };
-    getMovies();
-  }, []);
-
+  const {data:movies , isLoading, isError} = useCustomFetch(`/movie/upcoming?language=ko-KR`)
   const handleMovieClick = (movieid) => {
     navigate(`/movies/${movieid}`);
   };
 
+  if (isLoading) return <CustomP>로딩중...</CustomP>;
+  if (isError) return <CustomP>영화 정보를 가져오는 데 오류가 발생했습니다.{isError}</CustomP>;
   return (
     <CustomUl>
       {movies.map((movie) => (
