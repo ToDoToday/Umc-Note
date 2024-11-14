@@ -2,51 +2,39 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from "styled-components";
+import { useQuery } from '@tanstack/react-query';
+import { useGetMovieDetails } from '../hooks/Queries/useGetMoviesDetail';
 
 const MovieDetailPage = () => {
   const { movieid } = useParams();
-  const [movie, setMovie] = useState(null);
-  const [credits, setCredits] = useState(null);
 
-  useEffect(() => {
-    const fetchMovieDetails = async () => {
-      const movieResponse = await axios.get(`https://api.themoviedb.org/3/movie/${movieid}?language=ko-KR`, {
-        headers: {
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNDkyYzEwYTQyYTQ1ZDA5MDdjNTE5Y2FkMmEzODE5MyIsIm5iZiI6MTczMDE3MjczMC44NTM2MzIsInN1YiI6IjY3MDIzYzBiZjM0OTVkNzJjNGY3YTQ2YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.r1TPbGvFqG_gwp1Q5Co_O5uzPcxqNgWvlODwjAYobZc',
-        },
-      });
-      const creditResponse = await axios.get(`https://api.themoviedb.org/3/movie/${movieid}/credits?language=ko-KR`, {
-        headers: {
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNDkyYzEwYTQyYTQ1ZDA5MDdjNTE5Y2FkMmEzODE5MyIsIm5iZiI6MTczMDE3MjczMC44NTM2MzIsInN1YiI6IjY3MDIzYzBiZjM0OTVkNzJjNGY3YTQ2YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.r1TPbGvFqG_gwp1Q5Co_O5uzPcxqNgWvlODwjAYobZc',
-        },
-      });
-      setMovie(movieResponse.data);
-      setCredits(creditResponse.data);
-    };
-    fetchMovieDetails();
-  }, [movieid]);
+  const { data, isLoading, isError } = useQuery({
+    queryFn: () => useGetMovieDetails({ movieid }),
+    queryKey: ['movieDetail', movieid],
+  });
 
-  if (!movie || !credits) return <div>Loading...</div>;
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>영화 정보를 가져오는 데 오류가 발생했습니다.</div>;
 
+  const { movie, credits } = data;
   const director = credits.crew.find((person) => person.job === "Director");
-  const topCast = credits.cast; 
-  let aveMV= movie.vote_average.toFixed(1)
+  const topCast = credits.cast;
+  const aveMV = movie.vote_average.toFixed(1);
+
   return (
     <Background>
       <Container>
         <MovieInfo>
-        <BackdropImage backdropPath={movie.backdrop_path} />
+          <BackdropImage backdropPath={movie.backdrop_path} />
           <Overlay>
             <Title>{movie.title}</Title>
             <p>평균 {aveMV}</p>
             <p>{movie.release_date}</p>
             <p>{movie.runtime}분</p>
-            
             <Customdiv3>
               <CustomP>{movie.tagline}</CustomP>
               <p>{movie.overview}</p>
             </Customdiv3>
-              
           </Overlay>
         </MovieInfo>
         
@@ -67,7 +55,7 @@ const MovieDetailPage = () => {
                   alt={actor.name} 
                 />
                 <CastName>{actor.name}</CastName>
-                <CastRole>{actor.character} </CastRole>
+                <CastRole>{actor.character}</CastRole>
               </CastItem>
             ))}
           </CastList>
@@ -76,7 +64,6 @@ const MovieDetailPage = () => {
     </Background>
   );
 };
-
 
 export default MovieDetailPage;
 
