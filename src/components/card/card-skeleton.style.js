@@ -13,7 +13,8 @@ const shimmer = keyframes`
 
 const Container = styled.div`
   width: 100%;
-  margin-left:12px;
+  margin-left:20px;
+  margin-top:20px;
   
   `;
   const CardWrapper = styled.div`
