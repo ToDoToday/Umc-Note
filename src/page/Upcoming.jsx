@@ -11,7 +11,7 @@ import CardListSkeleton from '../components/card/card-list-skeleton';
 const Upcoming = () => {
 
   const {data:movies,isPending,isError } = useQuery({
-    queryFn: ()=> useGetMovies({catagory:'upcoming', pageParam:1}),
+    queryFn: ()=> useGetMovies({category:'upcoming', pageParam:1}),
     queryKey:['movies','upcoming'],
     cacheTime:10000,
     staleTime:10000,
@@ -32,7 +32,7 @@ const Upcoming = () => {
 
   return (
     <CustomUl>
-      {movies?.data?.results?.map((movie) => (
+      {movies?.results?.map((movie) => (
         <CustomLi key={movie.id}>
           <Customdiv2 onClick={() => handleMovieClick(movie.id)}>
             <CustomImg src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt={movie.title} />

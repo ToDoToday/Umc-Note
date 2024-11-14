@@ -4,36 +4,43 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 // import useCustomFetch from '../hooks/useCustomFetch';
 import { useGetMovies } from '../hooks/Queries/useGetMovies';
-import { Query, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import CardListSkeleton from '../components/card/card-list-skeleton';
 
 const Popular = () => {
   const navigate = useNavigate();
 
-  const {data:movies,isPending,isError } = useQuery({
-    queryFn: ()=> useGetMovies({catagory:'popular', pageParam:1}),
-    queryKey:['movies','popular'],
-    cacheTime:10000,
-    staleTime:10000,
-  })
+  const { data: movies, isLoading, isError, error } = useQuery({
+    queryFn: () => useGetMovies({ category: 'popular', pageParam: 1 }),
+    queryKey: ['movies', 'popular'],
+    cacheTime: 10000,
+    staleTime: 10000,
+  });
 
   const handleMovieClick = (movieid) => {
     navigate(`/movies/${movieid}`);
   };
-  if (isPending) return(
-    <MovieGridContainer>
-      <CardListSkeleton number={20}/>
-    </MovieGridContainer>
-  );
-  if (isError) return <CustomP>영화 정보를 가져오는 데 오류가 발생했습니다.{isError.message}</CustomP>;
-  return (  
+
+  if (isLoading) {
+    return (
+      <MovieGridContainer>
+        <CardListSkeleton number={20} />
+      </MovieGridContainer>
+    );
+  }
+
+  if (isError) {
+    return <CustomP>영화 정보를 가져오는 데 오류가 발생했습니다. {error.message}</CustomP>;
+  }
+
+  return (
     <CustomUl>
-      {movies?.data?.results?.map((movie) => (
+      {movies?.results?.map((movie) => (
         <CustomLi key={movie.id}>
           <Customdiv2 onClick={() => handleMovieClick(movie.id)}>
             <CustomImg src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} />
-            <CustomP fontSize='8.5px' fontWeight="700">{movie.title}</CustomP>
-            <CustomP fontSize='7px'>{movie.release_date}</CustomP>
+            <CustomP fontSize="8.5px" fontWeight="700">{movie.title}</CustomP>
+            <CustomP fontSize="7px">{movie.release_date}</CustomP>
           </Customdiv2>
         </CustomLi>
       ))}

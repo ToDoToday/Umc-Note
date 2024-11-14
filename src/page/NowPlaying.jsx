@@ -4,47 +4,60 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 // import { axiosInstance } from '../apis/axios-instance';
 // import useCustomFetch from '../hooks/useCustomFetch'; 
-import { useGetMovies } from '../hooks/Queries/useGetMovies';
-import { Query, useQuery } from '@tanstack/react-query';
-import CardListSkeleton from '../components/card/card-list-skeleton';
-// import { useGetInfiniteMovies } from '../hooks/useGetInfiniteMovies';
-
+// import { useGetMovies } from '../hooks/Queries/useGetMovies';
+// import { useQuery } from '@tanstack/react-query';
+// import CardListSkeleton from '../components/card/card-list-skeleton';
+import { useGetInfiniteMovies } from '../hooks/useGetInfiniteMovies';
+import { useInView } from 'react-intersection-observer';
 
 const NowPlaying = () => {
   const navigate = useNavigate();
 
-  // const {data} = useGetInfiniteMovies('now_playing') 
+  const {data:movies,
+    isLoading,
+    isFetching,
+    hasNextPage,
+    isPending,
+    fetchNextPage,
+    error,
+    isError,
+    isFetchingNextPage
+  } = useGetInfiniteMovies('now_playing') 
 
-
-  const {data:movies,isPending,isError } = useQuery({
-    queryFn: ()=> useGetMovies({catagory:'now_playing', pageParam:1}),
-    queryKey:['movies','now_playing'],
-    cacheTime:10000,
-    staleTime:10000,
+  const {ref,inView} = useInView({
+    threshold:0
   })
+  console.log(movies)
 
-  const handleMovieClick = (movieid) => {
-    navigate(`/movies/${movieid}`);
-  };
-  if (isPending) return(
-    <MovieGridContainer>
-      <CardListSkeleton number={20}/>
-    </MovieGridContainer>
-  );
-  if (isError) return <CustomP>영화 정보를 가져오는 데 오류가 발생했습니다.{isError.message}</CustomP>;
-  return (
-    <CustomUl>
-      {movies?.data?.results?.map((movie) => (
-        <CustomLi key={movie.id}>
-          <Customdiv2 onClick={() => handleMovieClick(movie.id)}>
-            <CustomImg src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} />
-            <CustomP fontSize='8.5px' fontWeight="700">{movie.title}</CustomP>
-            <CustomP fontSize='7px'>{movie.release_date}</CustomP>
-          </Customdiv2>
-        </CustomLi>
-      ))}
-    </CustomUl>
-  );
+  // const {data:movies,isPending,isError } = useQuery({
+  //   queryFn: ()=> useGetMovies({catagory:'now_playing', pageParam:1}),
+  //   queryKey:['movies','now_playing'],
+  //   cacheTime:10000,
+  //   staleTime:10000,
+  // })
+
+  // const handleMovieClick = (movieid) => {
+  //   navigate(`/movies/${movieid}`);
+  // };
+  // if (isPending) return(
+  //   <MovieGridContainer>
+  //     <CardListSkeleton number={20}/>
+  //   </MovieGridContainer>
+  // );
+  // if (isError) return <CustomP>영화 정보를 가져오는 데 오류가 발생했습니다.{isError.message}</CustomP>;
+//   return (
+//     // <CustomUl>
+//     //   {movies?.results?.map((movie) => (
+//     //     <CustomLi key={movie.id}>
+//     //       <Customdiv2 onClick={() => handleMovieClick(movie.id)}>
+//     //         <CustomImg src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} />
+//     //         <CustomP fontSize='8.5px' fontWeight="700">{movie.title}</CustomP>
+//     //         <CustomP fontSize='7px'>{movie.release_date}</CustomP>
+//     //       </Customdiv2>
+//     //     </CustomLi>
+//     //   ))}
+//     // </CustomUl>
+//   // );
 };
 
 export default NowPlaying;

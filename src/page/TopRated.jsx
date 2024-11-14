@@ -4,14 +4,14 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 // import useCustomFetch from '../hooks/useCustomFetch';
 import { useGetMovies } from '../hooks/Queries/useGetMovies';
-import { Query, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import CardListSkeleton from '../components/card/card-list-skeleton';
 
 const TopRated = () => {
   const navigate = useNavigate();
 
   const {data:movies,isPending,isError } = useQuery({
-    queryFn: ()=> useGetMovies({catagory:'top_rated', pageParam:1}),
+    queryFn: ()=> useGetMovies({category:'top_rated', pageParam:1}),
     queryKey:['movies','top_rated'],
     cacheTime:10000,
     staleTime:10000,
@@ -28,7 +28,7 @@ const TopRated = () => {
   if (isError) return <CustomP>영화 정보를 가져오는 데 오류가 발생했습니다.{isError.message}</CustomP>;
   return (
     <CustomUl>
-      {movies?.data?.results?.map((movie) => (
+      {movies?.results?.map((movie) => (
         <CustomLi key={movie.id}>
           <Customdiv2 onClick={() => handleMovieClick(movie.id)}>
             <CustomImg src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt={movie.title} />
