@@ -54,11 +54,13 @@ const Popular = () => {
           </CustomLi>
         ));
       })}
+
+
       {isFetching &&
-
         <CardListSkeleton number={20}/>
-
          }
+
+
       </CustomUl>
       <div ref={ref} style={{marginTop:'20px',marginBottom:'50px', display:'flex', justifyContent:'center',width:'115%'}}>
         {!isFetching && <ClipLoader color='white'/>}
