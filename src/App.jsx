@@ -88,7 +88,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-const queryClient = new QueryClient()
+export const queryClient = new QueryClient()
 
 
 function App() {

@@ -14,7 +14,7 @@ function usePagination(category) {
     isFetching,
     isPreviousData,
   } = useQuery({
-    queryKey: ['amovies', ctegory, page], // 쿼리 키에 카테고리와 페이지 추가
+    queryKey: ['movies', category, page], // 쿼리 키에 카테고리와 페이지 추가
     queryFn: () => useGetMovies({ category, pageParam: page }), // useGetMovies 훅 사용
     keepPreviousData: true, // 이전 데이터를 유지
   });

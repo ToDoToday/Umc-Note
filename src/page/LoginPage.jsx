@@ -5,6 +5,8 @@ import CustomButton from "../components/CustomButton";
 import styled from "styled-components";
 import useForm from '../hooks/use-form';
 import { validateLogin } from "../utils/vaildate";
+import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '../App';
 // contextapi활용
 const LoginPage = () => {
     const navigate = useNavigate();
@@ -17,31 +19,68 @@ const LoginPage = () => {
         validate: validateLogin
     });
 
-    const onSubmit = async (event) => {
-        event.preventDefault();
+    // const onSubmit = async (event) => {
+    //     event.preventDefault();
 
-        try {
-            // 로그인 요청
-            const response = await axios.post("http://localhost:3000/auth/login", {
-                email: login.values.email,
-                password: login.values.password
-            });
+    //     try {
+    //         // 로그인 요청
+    //         const response = await axios.post("http://localhost:3000/auth/login", {
+    //             email: login.values.email,
+    //             password: login.values.password
+    //         });
 
-            // 로그인 성공 시, 토큰 저장
-            const { accessToken, refreshToken } = response.data;
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
-            // localStorage.setItem('UserName',user.name) 참고할것
+    //         // 로그인 성공 시, 토큰 저장
+    //         const { accessToken, refreshToken } = response.data;
+    //         localStorage.setItem('accessToken', accessToken);
+    //         localStorage.setItem('refreshToken', refreshToken);
+    //         // localStorage.setItem('UserName',user.name) 참고할것
 
-            // 메인 페이지로 리디렉션
-            alert('ㅇㅇ')
-            navigate('/');
+    //         // 메인 페이지로 리디렉션
+    //         alert('ㅇㅇ')
+    //         navigate('/');
 
-        } catch (error) {
+    //     } catch (error) {
+    //         console.error("로그인 실패", error.response?.data || error.message);
+    //         alert('ㄴㄴ')
+    //     }
+    // };
+    const loginMutation = useMutation(
+        {mutationFn: async ({ email, password }) => {
+                const response = await axios.post("http://localhost:3000/auth/login", {
+                  email,
+                  password,
+                });
+                return response.data; // 서버에서 반환된 데이터 반환
+              },
+          onSuccess: (data) => {
+            // 성공 시 토큰 저장 및 리디렉션
+            const { accessToken, refreshToken } = data;
+            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("refreshToken", refreshToken);
+    
+            alert("로그인 성공!");
+            navigate("/"); // 메인 페이지로 이동
+            queryClient.refetchQueries(['login']);
+          },
+          onError: (error) => {
+            // 실패 시 오류 처리
             console.error("로그인 실패", error.response?.data || error.message);
-            alert('ㄴㄴ')
+            alert("로그인 실패!");
+            
+          },
         }
-    };
+      );
+
+      
+    const onSubmit = (event) => {
+        event.preventDefault();
+    
+        // `useMutation`을 사용하여 요청 트리거
+        loginMutation.mutate({
+          email: login.values.email,
+          password: login.values.password,
+        });
+      };
 
     return (
         <Background>
